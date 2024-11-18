@@ -120,6 +120,43 @@
             color: rgba(255,255,255,0.6);
         }
 
+        /* Confirmation Page Styles */
+        .confirmation-page {
+            display: none;
+            text-align: center;
+        }
+
+        .confirmation-page.active {
+            display: block;
+        }
+
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .confirmation-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #80D8FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .confirmation-message {
+            margin-bottom: 30px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -127,6 +164,10 @@
             
             .hero p {
                 font-size: 1rem;
+            }
+
+            .confirmation-title {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -150,9 +191,10 @@
             </div>
         </section>
 
-        <section class="contact-form container">
+        <!-- Contact Form Section -->
+        <section id="contactSection" class="contact-form container">
             <h2>Get In Touch</h2>
-            <form id="contactForm" onsubmit="return false;">
+            <form id="contactForm">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" required>
@@ -168,10 +210,48 @@
                 <button type="submit">Send Message</button>
             </form>
         </section>
+
+        <!-- Confirmation Page Section -->
+        <section id="confirmationSection" class="contact-form container confirmation-page">
+            <div class="confirmation-icon">✓</div>
+            <h2 class="confirmation-title">Thank You!</h2>
+            <p class="confirmation-message">
+                Your message has been sent successfully. We'll get back to you soon at <span id="confirmationEmail"></span>.
+            </p>
+            <button class="back-button" onclick="resetForm()">Send Another Message</button>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2024 NeroVector. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Here you would typically send the data to your server
+            console.log('Form submitted:', { name, email, message });
+
+            // Show confirmation page
+            document.getElementById('contactSection').classList.add('hidden');
+            document.getElementById('confirmationSection').classList.add('active');
+            document.getElementById('confirmationEmail').textContent = email;
+        });
+
+        function resetForm() {
+            // Reset the form
+            document.getElementById('contactForm').reset();
+            
+            // Hide confirmation page and show form
+            document.getElementById('confirmationSection').classList.remove('active');
+            document.getElementById('contactSection').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
